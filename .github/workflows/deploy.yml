@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  deploy-pdf:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: doc/main.tex
+      # Upload PDF to the workflow
+      - uses: actions/upload-artifact@v2
+        with:
+          name: PDF
+          path: main.pdf
+      - name: deploy PDF to machine
+        run: |
+          apt install sshpass
+          echo $PW > pf
+          sshpass f "pf" scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" main.pdf $USER@$MACHINE:/nfs/student/x/$USER/public_html/tmp/github-action-example.pdf
