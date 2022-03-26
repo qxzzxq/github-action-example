@@ -1,17 +1,17 @@
 name: Deploy
 
+# This workflow will only be triggered when the CI workflow that runs on the main branch is complete
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   deploy-pdf:
     runs-on: ubuntu-latest
-    if: ${{ (github.event.pull_request.merged) || (github.event_name == 'workflow_dispatch') }}
+    # if: ${{ (github.event_name == 'push') }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -19,12 +19,12 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: doc/main.tex
-      # Upload PDF to the workflow
       - uses: actions/upload-artifact@v2
+        name: Upload PDF to current workflow
         with:
           name: PDF
           path: main.pdf
-      - name: deploy PDF to machine
+      - name: Deploy PDF to remote host
         run: |
           echo ${{ secrets.MY_PW }} > pf.txt
           chmod 0400 pf.txt
