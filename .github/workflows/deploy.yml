@@ -28,5 +28,5 @@ jobs:
         run: |
           sudo apt-get install sshpass
           echo $PW > pf.txt
-          chmod 0400 pass_file
+          chmod 0400 pf.txt
           sshpass -f pf.txt scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" main.pdf $USER@$MACHINE:/nfs/student/x/$USER/public_html/tmp/github-action-example.pdf
