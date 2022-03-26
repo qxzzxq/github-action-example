@@ -27,5 +27,7 @@ jobs:
       - name: deploy PDF to machine
         run: |
           sudo apt-get install sshpass
-          echo $PW > pf
-          sshpass f "pf" scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" main.pdf $USER@$MACHINE:/nfs/student/x/$USER/public_html/tmp/github-action-example.pdf
+          echo $PW > pf.txt
+          ls
+          pwd
+          sshpass f pf.txt scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" main.pdf $USER@$MACHINE:/nfs/student/x/$USER/public_html/tmp/github-action-example.pdf
