@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run:
+  run_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,3 +32,17 @@ jobs:
           coverage xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
+
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: doc/main.tex
+      - uses: actions/upload-artifact@v2
+        with:
+          name: PDF
+          path: main.pdf
