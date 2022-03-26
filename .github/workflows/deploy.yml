@@ -28,4 +28,4 @@ jobs:
         run: |
           echo ${{ secrets.MY_PW }} > pf.txt
           chmod 0400 pf.txt
-          sshpass -f pf.txt scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" test.txt ${{ secrets.MY_USER }}@${{ secrets.MY_MACHINE }}:/nfs/student/x/${{ secrets.MY_USER }}/public_html/tmp/github-action-example.pdf
+          sshpass -f pf.txt scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" main.pdf ${{ secrets.MY_USER }}@${{ secrets.MY_MACHINE }}:/nfs/student/x/${{ secrets.MY_USER }}/public_html/tmp/github-action-example.pdf
